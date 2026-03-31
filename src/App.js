@@ -1,282 +1,126 @@
-// import React, { useState } from "react";
-// import {
-//   Container,
-//   Typography,
-//   Button,
-//   Box,
-//   Paper,
-//   Stack,
-//   CssBaseline,
-//   createTheme,
-//   ThemeProvider,
-//   TextField,
-// } from "@mui/material";
-// import { styled } from "@mui/system";
-// import dayjs from "dayjs";
-// import duration from "dayjs/plugin/duration";
-
-// dayjs.extend(duration);
-
-// // Dark Theme
-// const darkTheme = createTheme({
-//   palette: {
-//     mode: "dark",
-//     background: {
-//       default: "#282826",
-//       paper: "#33332f",
-//     },
-//     text: {
-//       primary: "#ffffff",
-//     },
-//   },
-// });
-
-// // Styled Orange Button
-// const StyledButton = styled(Button)({
-//   backgroundColor: "#a3644e",
-//   "&:hover": {
-//     backgroundColor: "#854b39",
-//   },
-//   color: "#fff",
-// });
-
-// // Styled Text Field
-// const StyledTextField = styled(TextField)({
-//   "& .MuiInputBase-root": {
-//     backgroundColor: "#44443e",
-//     borderRadius: 4,
-//     color: "#ddd", // text color
-//     caretColor: "#a3644e", // orange caret
-//   },
-//   "& input": {
-//     color: "#ddd",
-//     backgroundColor: "#44443e", // same dark background
-//   },
-//   "& input[type='time']::-webkit-calendar-picker-indicator": {
-//     filter: "invert(0.8)", // makes clock icon visible in dark mode
-//   },
-//   "& label": {
-//     color: "#bbb",
-//   },
-//   "& label.Mui-focused": {
-//     color: "#a3644e",
-//   },
-//   "& .MuiOutlinedInput-root": {
-//     "& fieldset": {
-//       borderColor: "#666",
-//     },
-//     "&:hover fieldset": {
-//       borderColor: "#a3644e",
-//     },
-//     "&.Mui-focused fieldset": {
-//       borderColor: "#a3644e",
-//     },
-//   },
-// });
-
-// function App() {
-//   const [loginTime, setLoginTime] = useState("");
-//   const [requiredHours, setRequiredHours] = useState("07:45");
-//   const [effectiveHours, setEffectiveHours] = useState("");
-//   const [lastLoginTime, setLastLoginTime] = useState("");
-//   const [logoutTime, setLogoutTime] = useState("");
-//   const [remainingTime, setRemainingTime] = useState("");
-
-//   const calculateLogoutTime = () => {
-//     if (!loginTime || !requiredHours || !effectiveHours || !lastLoginTime) {
-//       alert("Please fill all the fields correctly.");
-//       return;
-//     }
-
-//     const [effH, effM] = effectiveHours.split(":").map(Number);
-//     const totalEffectiveMinutes = effH * 60 + effM;
-
-//     const [reqH, reqM] = requiredHours.split(":").map(Number);
-//     const requiredMinutes = reqH * 60 + reqM;
-
-//     const remainingMinutes = requiredMinutes - totalEffectiveMinutes;
-
-//     if (remainingMinutes <= 0) {
-//       setRemainingTime("0h 0m");
-//       setLogoutTime("You can log out now ✅");
-//       return;
-//     }
-
-//     const [lastH, lastM] = lastLoginTime.split(":").map(Number);
-//     const lastLogin = dayjs().hour(lastH).minute(lastM);
-
-//     const logout = lastLogin.add(remainingMinutes, "minute");
-
-//     setRemainingTime(
-//       `${Math.floor(remainingMinutes / 60)}h ${remainingMinutes % 60}m`
-//     );
-//     setLogoutTime(logout.format("hh:mm A"));
-//   };
-
-//   const clearFields = () => {
-//     setLoginTime("");
-//     setRequiredHours("07:45");
-//     setEffectiveHours("");
-//     setLastLoginTime("");
-//     setLogoutTime("");
-//     setRemainingTime("");
-//   };
-
-//   return (
-//     <ThemeProvider theme={darkTheme}>
-//       <CssBaseline />
-//       <Container maxWidth="sm" sx={{ mt: 5 }}>
-//         <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
-//           <Typography variant="h5" gutterBottom align="center">
-//             🕒 Work Hours Tracker
-//           </Typography>
-
-//           <Stack spacing={3}>
-//             <StyledTextField
-//               label="Login Time"
-//               type="time"
-//               InputLabelProps={{ shrink: true }}
-//               value={loginTime}
-//               onChange={(e) => setLoginTime(e.target.value)}
-//               fullWidth
-//             />
-
-//             <StyledTextField
-//               label="Required Hours (HH:mm)"
-//               placeholder="e.g. 07:45"
-//               value={requiredHours}
-//               onChange={(e) => setRequiredHours(e.target.value)}
-//               fullWidth
-//             />
-
-//             <StyledTextField
-//               label="Effective Hours Till Now (HH:mm)"
-//               placeholder="e.g. 07:00"
-//               value={effectiveHours}
-//               onChange={(e) => setEffectiveHours(e.target.value)}
-//               fullWidth
-//             />
-
-//             <StyledTextField
-//               label="Last Login Time"
-//               type="time"
-//               InputLabelProps={{ shrink: true }}
-//               value={lastLoginTime}
-//               onChange={(e) => setLastLoginTime(e.target.value)}
-//               fullWidth
-//             />
-
-//             <Box display="flex" flexDirection={{ xs: "column", sm: "row" }} gap={2}>
-//               <StyledButton variant="contained" onClick={calculateLogoutTime} fullWidth>
-//                 Calculate Logout Time
-//               </StyledButton>
-//               <Button variant="outlined" color="error" onClick={clearFields} fullWidth>
-//                 Clear
-//               </Button>
-//             </Box>
-
-//             {logoutTime && (
-//               <Paper
-//                 elevation={1}
-//                 sx={{ mt: 3, p: 2, backgroundColor: "#3c3c37", borderRadius: 2 }}
-//               >
-//                 <Typography variant="body1" gutterBottom>
-//                   ⏳ <strong>Remaining Time:</strong> {remainingTime}
-//                 </Typography>
-//                 <Typography variant="body1">
-//                   ✅ <strong>You can log out at:</strong> {logoutTime}
-//                 </Typography>
-//               </Paper>
-//             )}
-//           </Stack>
-//         </Paper>
-//       </Container>
-//     </ThemeProvider>
-//   );
-// }
-
-// export default App;
-
 import React, { useMemo, useState } from "react";
 import {
-  Container,
-  Typography,
-  Button,
   Box,
+  Button,
+  Container,
+  CssBaseline,
   Paper,
   Stack,
-  CssBaseline,
-  createTheme,
-  ThemeProvider,
   TextField,
+  ThemeProvider,
+  Typography,
+  createTheme,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
-// ✅ Put your GIFs in: src/video/
-// (or adjust paths if your folder is elsewhere)
-import gif1 from "./video/gif1.gif"; // more than half time remaining
-import gif2 from "./video/gif2.gif"; // more than half time completed (but not finished)
-import gif3 from "./video/gif3.gif"; // completed time
+import gif1 from "./video/gif1.gif";
+import gif2 from "./video/gif2.gif";
+import gif3 from "./video/gif3.gif";
 
 dayjs.extend(duration);
 
-// Dark Theme
-const darkTheme = createTheme({
+const theme = createTheme({
   palette: {
-    mode: "dark",
+    mode: "light",
+    primary: {
+      main: "#d97706",
+    },
+    secondary: {
+      main: "#2f9c95",
+    },
     background: {
-      default: "#282826",
-      paper: "#33332f",
+      default: "#f3e8dc",
+      paper: "#f7efe6",
     },
     text: {
-      primary: "#ffffff",
+      primary: "#2f241d",
+      secondary: "#6f5b4d",
+    },
+  },
+  shape: {
+    borderRadius: 10,
+  },
+  typography: {
+    fontFamily: '"Segoe UI", "Trebuchet MS", sans-serif',
+    h4: {
+      fontWeight: 800,
+      letterSpacing: "-0.02em",
+    },
+    h6: {
+      fontWeight: 700,
+    },
+    button: {
+      textTransform: "none",
+      fontWeight: 700,
     },
   },
 });
 
-// Styled Orange Button
-const StyledButton = styled(Button)({
-  backgroundColor: "#a3644e",
-  "&:hover": {
-    backgroundColor: "#854b39",
+const FormTextField = styled(TextField)({
+  "& .MuiInputLabel-root": {
+    color: "#7e695b",
+    fontWeight: 600,
   },
-  color: "#fff",
-});
-
-// Styled Text Field
-const StyledTextField = styled(TextField)({
-  "& .MuiInputBase-root": {
-    backgroundColor: "#44443e",
-    borderRadius: 4,
-    color: "#ddd",
-    caretColor: "#a3644e",
-  },
-  "& input": {
-    color: "#ddd",
-    backgroundColor: "#44443e",
-  },
-  "& input[type='time']::-webkit-calendar-picker-indicator": {
-    filter: "invert(0.8)",
-  },
-  "& label": {
-    color: "#bbb",
-  },
-  "& label.Mui-focused": {
-    color: "#a3644e",
+  "& .MuiInputLabel-root.Mui-focused": {
+    color: "#d97706",
   },
   "& .MuiOutlinedInput-root": {
+    borderRadius: 8,
+    backgroundColor: "#fbf7f2",
+    color: "#2f241d",
     "& fieldset": {
-      borderColor: "#666",
+      borderColor: "#d9c4b3",
     },
     "&:hover fieldset": {
-      borderColor: "#a3644e",
+      borderColor: "#c7a88d",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#a3644e",
+      borderColor: "#d97706",
+      borderWidth: 2,
     },
   },
 });
+
+const PrimaryButton = styled(Button)({
+  borderRadius: 999,
+  padding: "12px 18px",
+  backgroundColor: "#d97706",
+  boxShadow: "none",
+  "&:hover": {
+    backgroundColor: "#c46b05",
+    boxShadow: "none",
+  },
+});
+
+const SecondaryButton = styled(Button)({
+  borderRadius: 999,
+  padding: "12px 18px",
+  borderColor: "#ceb9aa",
+  color: "#6f5b4d",
+  "&:hover": {
+    borderColor: "#bea391",
+    backgroundColor: "#f1e6db",
+  },
+});
+
+const moodConfig = {
+  1: {
+    chip: "Long way to go",
+    text: "Abhi logout ka sapna thoda door hai.",
+    gif: gif1,
+  },
+  2: {
+    chip: "Almost there",
+    text: "Bas thoda aur, phir azaadi hi azaadi.",
+    gif: gif2,
+  },
+  3: {
+    chip: "You are free",
+    text: "Aaj ka kaam khatam, ab zindagi shuru.",
+    gif: gif3,
+  },
+};
 
 function App() {
   const [loginTime, setLoginTime] = useState("");
@@ -285,18 +129,13 @@ function App() {
   const [lastLoginTime, setLastLoginTime] = useState("");
   const [logoutTime, setLogoutTime] = useState("");
   const [remainingTime, setRemainingTime] = useState("");
-
-  // new UI state
   const [hasCalculated, setHasCalculated] = useState(false);
-  const [gifStage, setGifStage] = useState(null); // 1 | 2 | 3 | null
+  const [gifStage, setGifStage] = useState(null);
 
-  const selectedGif = useMemo(() => {
-    if (!hasCalculated) return null;
-    if (gifStage === 1) return gif1;
-    if (gifStage === 2) return gif2;
-    if (gifStage === 3) return gif3;
-    return null;
-  }, [hasCalculated, gifStage]);
+  const mood = useMemo(() => {
+    if (!gifStage) return null;
+    return moodConfig[gifStage];
+  }, [gifStage]);
 
   const calculateLogoutTime = () => {
     if (!loginTime || !requiredHours || !effectiveHours || !lastLoginTime) {
@@ -314,23 +153,21 @@ function App() {
 
     setHasCalculated(true);
 
-    // ✅ Completed
     if (remainingMinutes <= 0) {
       setGifStage(3);
       setRemainingTime("0h 0m");
-      setLogoutTime("You can log out now ✅");
+      setLogoutTime("You can log out now");
       return;
     }
 
-    // ✅ Choose GIF stage based on "half time" rule
-    // - If remaining > half => gif1
-    // - Else (more than half completed, not finished) => gif2
-    if (remainingMinutes > requiredMinutes / 2) setGifStage(1);
-    else setGifStage(2);
+    if (remainingMinutes > requiredMinutes / 2) {
+      setGifStage(1);
+    } else {
+      setGifStage(2);
+    }
 
     const [lastH, lastM] = lastLoginTime.split(":").map(Number);
     const lastLogin = dayjs().hour(lastH).minute(lastM);
-
     const logout = lastLogin.add(remainingMinutes, "minute");
 
     setRemainingTime(
@@ -346,168 +183,235 @@ function App() {
     setLastLoginTime("");
     setLogoutTime("");
     setRemainingTime("");
-
     setHasCalculated(false);
     setGifStage(null);
   };
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
-
-      {/* Wider container after calculation so form can sit left and gif on right */}
-      <Container maxWidth={hasCalculated ? "lg" : "sm"} sx={{ mt: 5 }}>
-        {/* Layout switches AFTER calculate:
-            - before: single centered card
-            - after: left form card + right gif, both vertically centered */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            minHeight: "70vh",
-          }}
-        >
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: { xs: "column", md: "row" },
-              alignItems: "center",
-              justifyContent: "center",
-              gap: { xs: 3, md: 4 },
-            }}
+      <Box
+        sx={{
+          minHeight: "100vh",
+          background:
+            "linear-gradient(180deg, #f6ede3 0%, #efe1d2 52%, #e8d8c8 100%)",
+          py: { xs: 2, md: 3 },
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Container maxWidth="lg">
+          <Stack
+            spacing={{ xs: 2.5, md: 3 }}
+            sx={{ alignItems: "center" }}
           >
-            {/* LEFT: Form */}
-            <Paper
-              elevation={3}
+            <Box
               sx={{
-                p: hasCalculated ? 2.2 : 4,
-                borderRadius: 3,
                 width: "100%",
-                maxWidth: hasCalculated ? 420 : 560,
+                maxWidth: hasCalculated ? "100%" : 620,
+                mx: "auto",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
               <Typography
-                variant={hasCalculated ? "h6" : "h5"}
-                gutterBottom
+                variant="h4"
                 align="center"
-                sx={{ mb: hasCalculated ? 1 : 2 }}
+                sx={{ mb: 1, width: "100%", textAlign: "center" }}
               >
-                🕒 Work Hours Tracker
+                Work Hours Tracker
               </Typography>
-
-              <Stack spacing={hasCalculated ? 1.6 : 3}>
-                <StyledTextField
-                  label="Login Time"
-                  type="time"
-                  InputLabelProps={{ shrink: true }}
-                  value={loginTime}
-                  onChange={(e) => setLoginTime(e.target.value)}
-                  fullWidth
-                />
-
-                <StyledTextField
-                  label="Required Hours (HH:mm)"
-                  placeholder="e.g. 07:45"
-                  value={requiredHours}
-                  onChange={(e) => setRequiredHours(e.target.value)}
-                  fullWidth
-                />
-
-                <StyledTextField
-                  label="Effective Hours Till Now (HH:mm)"
-                  placeholder="e.g. 07:00"
-                  value={effectiveHours}
-                  onChange={(e) => setEffectiveHours(e.target.value)}
-                  fullWidth
-                />
-
-                <StyledTextField
-                  label="Last Login Time"
-                  type="time"
-                  InputLabelProps={{ shrink: true }}
-                  value={lastLoginTime}
-                  onChange={(e) => setLastLoginTime(e.target.value)}
-                  fullWidth
-                />
-
-                <Box
-                  display="flex"
-                  flexDirection={{ xs: "column", sm: "row" }}
-                  gap={2}
-                >
-                  <StyledButton
-                    size={hasCalculated ? "small" : "medium"}
-                    variant="contained"
-                    onClick={calculateLogoutTime}
-                    fullWidth
-                  >
-                    Calculate Logout Time
-                  </StyledButton>
-
-                  <Button
-                    size={hasCalculated ? "small" : "medium"}
-                    variant="outlined"
-                    color="error"
-                    onClick={clearFields}
-                    fullWidth
-                  >
-                    Clear
-                  </Button>
-                </Box>
-
-                {logoutTime && (
-                  <Paper
-                    elevation={1}
-                    sx={{
-                      mt: 3,
-                      p: hasCalculated ? 1.4 : 2,
-                      backgroundColor: "#3c3c37",
-                      borderRadius: 2,
-                    }}
-                  >
-                    <Typography variant="body1" gutterBottom>
-                      ⏳ <strong>Remaining Time:</strong> {remainingTime}
-                    </Typography>
-                    <Typography variant="body1">
-                      ✅ <strong>You can log out at:</strong> {logoutTime}
-                    </Typography>
-                  </Paper>
-                )}
-              </Stack>
-            </Paper>
-
-            {/* RIGHT: GIF (only after calculate) */}
-            {hasCalculated && selectedGif && (
-              <Box
+              <Typography
+                align="center"
+                color="text.secondary"
                 sx={{
                   width: "100%",
-                  maxWidth: 520,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  maxWidth: hasCalculated ? 640 : 560,
+                  textAlign: "center",
+                  mx: "auto",
+                  display: "block",
                 }}
               >
-                <Box
-                  component="img"
-                  src={selectedGif}
-                  alt="Work status gif"
+                Fill in your work details and calculate the exact time you can
+                finally log out.
+              </Typography>
+            </Box>
+
+            <Box
+              sx={{
+                width: "100%",
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  md: hasCalculated ? "minmax(320px, 430px) minmax(360px, 1fr)" : "minmax(320px, 620px)",
+                },
+                justifyContent: "center",
+                alignItems: "stretch",
+                gap: { xs: 2, md: 2.5 },
+              }}
+            >
+              <Paper
+                elevation={0}
+                sx={{
+                  p: { xs: 2, sm: 2.4 },
+                  borderRadius: 3,
+                  backgroundColor: "background.paper",
+                  border: "1px solid #dcc8b8",
+                  boxShadow: "0 14px 26px rgba(87, 58, 33, 0.09)",
+                  height: "100%",
+                }}
+              >
+                <Stack spacing={1.6}>
+                  <Typography variant="h6">Fill your details</Typography>
+
+                  <FormTextField
+                    label="Login Time"
+                    type="time"
+                    InputLabelProps={{ shrink: true }}
+                    value={loginTime}
+                    onChange={(e) => setLoginTime(e.target.value)}
+                    fullWidth
+                  />
+
+                  <FormTextField
+                    label="Required Hours (HH:mm)"
+                    placeholder="e.g. 07:45"
+                    value={requiredHours}
+                    onChange={(e) => setRequiredHours(e.target.value)}
+                    fullWidth
+                  />
+
+                  <FormTextField
+                    label="Effective Hours Till Now (HH:mm)"
+                    placeholder="e.g. 07:00"
+                    value={effectiveHours}
+                    onChange={(e) => setEffectiveHours(e.target.value)}
+                    fullWidth
+                  />
+
+                  <FormTextField
+                    label="Last Login Time"
+                    type="time"
+                    InputLabelProps={{ shrink: true }}
+                    value={lastLoginTime}
+                    onChange={(e) => setLastLoginTime(e.target.value)}
+                    fullWidth
+                  />
+
+                  <Box
+                    sx={{
+                      display: "grid",
+                      gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                      gap: 1.5,
+                    }}
+                  >
+                    <PrimaryButton
+                      variant="contained"
+                      onClick={calculateLogoutTime}
+                      fullWidth
+                    >
+                      Calculate Logout Time
+                    </PrimaryButton>
+                    <SecondaryButton
+                      variant="outlined"
+                      onClick={clearFields}
+                      fullWidth
+                    >
+                      Clear
+                    </SecondaryButton>
+                  </Box>
+                </Stack>
+              </Paper>
+
+              {hasCalculated && mood && (
+                <Paper
+                  elevation={0}
                   sx={{
-                    width: "100%",
-                    maxWidth: 520,
-                    height: { xs: 260, md: 360 },
-                    objectFit: "contain",
+                    p: { xs: 1.75, sm: 2.1 },
                     borderRadius: 3,
-                    backgroundColor: "#33332f",
-                    boxShadow: "0 12px 40px rgba(0,0,0,0.25)",
+                    backgroundColor: "#f3e8de",
+                    border: "1px solid #d8c2b1",
+                    boxShadow: "0 14px 26px rgba(87, 58, 33, 0.09)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 1.4,
+                    height: "100%",
                   }}
-                />
-              </Box>
-            )}
-          </Box>
-        </Box>
-      </Container>
+                >
+                  <Box>
+                    <Typography variant="h6" sx={{ mb: 0.4 }}>
+                      Work Mood
+                    </Typography>
+                    <Typography color="text.secondary" sx={{ fontSize: "0.97rem" }}>
+                      {mood.text}
+                    </Typography>
+                  </Box>
+
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      p: 1.2,
+                      borderRadius: 2,
+                      backgroundColor: "#f8efe6",
+                      border: "1px solid #d6bda9",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontSize: "0.98rem",
+                        fontWeight: 700,
+                        mb: 0.5,
+                      }}
+                    >
+                      Remaining Time: {remainingTime}
+                    </Typography>
+                    <Typography sx={{ fontSize: "0.98rem" }}>
+                      <strong>Logout Time:</strong> {logoutTime}
+                    </Typography>
+                  </Paper>
+
+                  <Box
+                    sx={{
+                      borderRadius: 2,
+                      overflow: "hidden",
+                      backgroundColor: "#f6ece2",
+                      border: "1px solid #d6bda9",
+                      minHeight: { xs: 180, md: 210 },
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      p: 1,
+                    }}
+                  >
+                    <Box
+                      component="img"
+                      src={mood.gif}
+                      alt="Work status gif"
+                      sx={{
+                        width: "100%",
+                        maxWidth: 320,
+                        height: { xs: 150, sm: 180, md: 180 },
+                        objectFit: "contain",
+                      }}
+                    />
+                  </Box>
+
+                  <Typography
+                    color="text.secondary"
+                    sx={{ textAlign: "center", fontSize: "0.95rem" }}
+                  >
+                    {remainingTime === "0h 0m"
+                      ? "All done. No extra minutes left."
+                      : `${remainingTime} left before logout.`}
+                  </Typography>
+                </Paper>
+              )}
+            </Box>
+          </Stack>
+        </Container>
+      </Box>
     </ThemeProvider>
   );
 }

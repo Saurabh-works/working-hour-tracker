@@ -1,8 +1,11 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render, screen } from "@testing-library/react";
+import App from "./App";
 
-test('renders learn react link', () => {
+test("renders the playful tracker heading and primary action", () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+
+  expect(screen.getByText(/work hours tracker/i)).toBeInTheDocument();
+  expect(
+    screen.getByRole("button", { name: /calculate logout time/i }),
+  ).toBeInTheDocument();
 });
