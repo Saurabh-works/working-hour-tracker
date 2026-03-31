@@ -85,11 +85,13 @@ const FormTextField = styled(TextField)({
 const PrimaryButton = styled(Button)({
   borderRadius: 999,
   padding: "12px 18px",
-  backgroundColor: "#d97706",
-  boxShadow: "none",
+  background: "linear-gradient(135deg, #e68a1c 0%, #c76a00 100%)",
+  boxShadow: "0 12px 22px rgba(197, 111, 18, 0.22)",
+  transition: "transform 180ms ease, box-shadow 180ms ease",
   "&:hover": {
-    backgroundColor: "#c46b05",
-    boxShadow: "none",
+    background: "linear-gradient(135deg, #ef9528 0%, #d9780a 100%)",
+    boxShadow: "0 16px 26px rgba(197, 111, 18, 0.28)",
+    transform: "translateY(-1px)",
   },
 });
 
@@ -98,9 +100,12 @@ const SecondaryButton = styled(Button)({
   padding: "12px 18px",
   borderColor: "#ceb9aa",
   color: "#6f5b4d",
+  backgroundColor: "rgba(255, 252, 248, 0.45)",
+  transition: "transform 180ms ease, border-color 180ms ease, background-color 180ms ease",
   "&:hover": {
     borderColor: "#bea391",
     backgroundColor: "#f1e6db",
+    transform: "translateY(-1px)",
   },
 });
 
@@ -193,11 +198,58 @@ function App() {
       <Box
         sx={{
           minHeight: "100vh",
+          position: "relative",
+          overflow: "hidden",
           background:
-            "linear-gradient(180deg, #f6ede3 0%, #efe1d2 52%, #e8d8c8 100%)",
+            "radial-gradient(circle at top left, rgba(255, 244, 229, 0.85) 0%, transparent 28%), radial-gradient(circle at 85% 15%, rgba(238, 198, 156, 0.35) 0%, transparent 22%), linear-gradient(180deg, #f8efe5 0%, #efe1d2 52%, #e6d5c3 100%)",
           py: { xs: 2, md: 3 },
           display: "flex",
           alignItems: "center",
+          "@keyframes floatGlow": {
+            "0%": {
+              transform: "translateY(0px) scale(1)",
+            },
+            "50%": {
+              transform: "translateY(-12px) scale(1.03)",
+            },
+            "100%": {
+              transform: "translateY(0px) scale(1)",
+            },
+          },
+          "@keyframes fadeLift": {
+            "0%": {
+              opacity: 0,
+              transform: "translateY(18px)",
+            },
+            "100%": {
+              opacity: 1,
+              transform: "translateY(0)",
+            },
+          },
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            width: { xs: 180, md: 260 },
+            height: { xs: 180, md: 260 },
+            top: { xs: -40, md: -70 },
+            right: { xs: -60, md: -80 },
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(231, 164, 89, 0.24) 0%, rgba(231, 164, 89, 0) 72%)",
+            animation: "floatGlow 8s ease-in-out infinite",
+          },
+          "&::after": {
+            content: '""',
+            position: "absolute",
+            width: { xs: 150, md: 210 },
+            height: { xs: 150, md: 210 },
+            bottom: { xs: -30, md: -50 },
+            left: { xs: -30, md: -40 },
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(47, 156, 149, 0.12) 0%, rgba(47, 156, 149, 0) 72%)",
+            animation: "floatGlow 10s ease-in-out infinite",
+          },
         }}
       >
         <Container maxWidth="lg">
@@ -214,6 +266,7 @@ function App() {
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
+                animation: "fadeLift 320ms ease-out",
               }}
             >
               <Typography
@@ -261,6 +314,17 @@ function App() {
                   border: "1px solid #dcc8b8",
                   boxShadow: "0 14px 26px rgba(87, 58, 33, 0.09)",
                   height: "100%",
+                  position: "relative",
+                  overflow: "hidden",
+                  animation: "fadeLift 420ms ease-out",
+                  "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    inset: 0,
+                    background:
+                      "linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 30%)",
+                    pointerEvents: "none",
+                  },
                 }}
               >
                 <Stack spacing={1.6}>
@@ -338,6 +402,17 @@ function App() {
                     flexDirection: "column",
                     gap: 1.4,
                     height: "100%",
+                    position: "relative",
+                    overflow: "hidden",
+                    animation: "fadeLift 520ms ease-out",
+                    "&::before": {
+                      content: '""',
+                      position: "absolute",
+                      inset: 0,
+                      background:
+                        "linear-gradient(145deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 45%)",
+                      pointerEvents: "none",
+                    },
                   }}
                 >
                   <Box>
@@ -354,7 +429,8 @@ function App() {
                     sx={{
                       p: 1.2,
                       borderRadius: 2,
-                      backgroundColor: "#f8efe6",
+                      background:
+                        "linear-gradient(180deg, #fbf3ea 0%, #f6eadf 100%)",
                       border: "1px solid #d6bda9",
                     }}
                   >
@@ -376,7 +452,8 @@ function App() {
                     sx={{
                       borderRadius: 2,
                       overflow: "hidden",
-                      backgroundColor: "#f6ece2",
+                      background:
+                        "linear-gradient(180deg, #f8eee4 0%, #f3e6da 100%)",
                       border: "1px solid #d6bda9",
                       minHeight: { xs: 180, md: 210 },
                       display: "flex",
